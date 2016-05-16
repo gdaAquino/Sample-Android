@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+
+    compileSdkVersion configs.compileSDK
+    buildToolsVersion configs.buildToolVersion
+
+    defaultConfig {
+        applicationId "com.giaquino.sample"
+        minSdkVersion configs.minSDK
+        targetSdkVersion configs.targetSDK
+        versionCode configs.code
+        versionName configs.name
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile libraries.supportAnnotations
+    compile libraries.supportDesign
+    compile libraries.supportAppCompat
+    compile libraries.supportRecyclerView
+
+    compile libraries.butterknife
+    apt libraries.butterknifeCompiler
+    compile libraries.dagger
+    apt libraries.daggerCompiler
+    compile libraries.javaxInject
+    compile libraries.javaxAnnotationApi
+
+    compile libraries.okhttp
+    compile libraries.retrofit
+    compile libraries.retrofitRxJavaAdapter
+    compile libraries.retrofitJacksonConverter
+    compile libraries.jackson
+
+    compile libraries.picasso
+    compile libraries.picassoOkHttp
+
+    compile libraries.rxJava
+    compile libraries.timber
+    compile libraries.autoValue
+    apt libraries.autoValueRedactedCompiler
+    apt libraries.autoValueParcelableCompiler
+
+    debugCompile libraries.okhttpLogIntercepter
+    debugCompile libraries.stetho
+    debugCompile libraries.stethoOkHttp
+    debugCompile libraries.leakCanary
+    debugCompile libraries.tinyDancer
+    debugCompile libraries.lynx
+
+}
