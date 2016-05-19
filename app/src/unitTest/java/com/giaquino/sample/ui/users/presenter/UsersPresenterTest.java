@@ -27,7 +27,6 @@ public class UsersPresenterTest {
     @Mock private UsersView usersView;
 
     private List<User> users;
-        ;
     private UsersPresenter usersPresenter;
 
     @Before public void setup() {

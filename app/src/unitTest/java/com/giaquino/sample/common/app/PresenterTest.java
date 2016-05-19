@@ -22,14 +22,12 @@ public class PresenterTest {
 
     private Presenter<Object> presenter;
 
-    @Before
-    public void setup() {
+    @Before public void setup() {
         view = new Object();
         presenter = new Presenter<>();
     }
 
-    @Test
-    public void bindView_shouldBindViewToThePresenter() {
+    @Test public void bindView_shouldBindViewToThePresenter() {
         presenter.bindView(view);
         assertThat(presenter.view(), is(view));
     }
@@ -40,15 +38,13 @@ public class PresenterTest {
         presenter.bindView(view);
     }
 
-    @Test
-    public void unbindView_shouldUnbindViewToThePresenter() {
+    @Test public void unbindView_shouldUnbindViewToThePresenter() {
         presenter.bindView(view);
         presenter.unbindView();
         assertThat(presenter.view(), nullValue());
     }
 
-    @Test
-    public void unbindView_shouldUnsubcribeSubscriptions() {
+    @Test public void unbindView_shouldUnsubcribeSubscriptions() {
         presenter.bindView(view);
         Subscription subscription1 = mock(Subscription.class);
         Subscription subscription2 = mock(Subscription.class);
@@ -72,14 +68,12 @@ public class PresenterTest {
         presenter.unbindView();
     }
 
-    @Test
-    public void view_shouldReturnTheCorrectView() {
+    @Test public void view_shouldReturnTheCorrectView() {
         presenter.bindView(view);
         assertThat(presenter.view(), equalTo(view));
     }
 
-    @Test
-    public void view_shouldReturnNullByDefault() {
+    @Test public void view_shouldReturnNullByDefault() {
         assertThat(presenter.view(), nullValue());
     }
 }
