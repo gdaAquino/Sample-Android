@@ -18,8 +18,7 @@ import static org.mockito.Mockito.verify;
  */
 public class PresenterTest {
 
-    Object view;
-
+    private Object view;
     private Presenter<Object> presenter;
 
     @Before public void setup() {
@@ -33,6 +32,18 @@ public class PresenterTest {
     @Test public void bindView_shouldBindViewToThePresenter() {
         presenter.bindView(view);
         assertThat(presenter.view(), is(view));
+    }
+
+    @Test public void bindView_shouldCallOnBindView() {
+        final boolean[] isBinded = new boolean[1];
+        presenter = new Presenter<Object>() {
+            @Override public void onBindView() {
+                isBinded[0] = true;
+            }
+        };
+        assertThat(isBinded[0], is(false));
+        presenter.bindView(view);
+        assertThat(isBinded[0], is(true));
     }
 
     @Test(expected = IllegalStateException.class)
