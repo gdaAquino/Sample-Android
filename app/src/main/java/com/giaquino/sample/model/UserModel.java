@@ -4,7 +4,6 @@ import com.giaquino.sample.model.api.GithubApi;
 import com.giaquino.sample.model.db.Database;
 import com.giaquino.sample.model.db.contract.UserContract;
 import com.giaquino.sample.model.entity.User;
-
 import java.util.Collections;
 import java.util.List;
 import rx.Single;
@@ -42,8 +41,7 @@ public class UserModel {
 
     public Single<List<User>> getUsersFromNetwork(final int since) {
         return api.getUsers("ef085af14ec8e343d27c8a329d66a5ae15fc6b92", since) //dont hardcode token
-            .map(Collections::unmodifiableList)
-            .doOnSuccess(users -> {
+            .map(Collections::unmodifiableList).doOnSuccess(users -> {
                 if (since == SINCE_INITIAL_VALUE) {
                     cache = users;
                     UserContract.insertUsers(database, users);

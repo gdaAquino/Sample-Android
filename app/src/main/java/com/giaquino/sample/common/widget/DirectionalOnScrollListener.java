@@ -18,14 +18,14 @@ public class DirectionalOnScrollListener extends RecyclerView.OnScrollListener {
         this.manager = manager;
     }
 
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+    @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         int first = manager.findFirstVisibleItemPosition();
         int last = manager.findLastVisibleItemPosition();
         int count = manager.getItemCount();
         if (notifyScroll) onScroll(first, last, count);
-        if (dy < 0 && notifyUpScroll) onScrollUp(first, last, count);
-        else if (notifyDownScroll) onScrollDown(first, last, count);
+        if (dy < 0 && notifyUpScroll) {
+            onScrollUp(first, last, count);
+        } else if (notifyDownScroll) onScrollDown(first, last, count);
     }
 
     public void setNotifyDownScroll(boolean notify) {

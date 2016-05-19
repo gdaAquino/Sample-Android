@@ -4,11 +4,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.giaquino.sample.BuildConfig;
 import com.giaquino.sample.model.api.GithubApi;
-
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -18,8 +16,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author Gian Darren Azriel Aquino.
  */
-@Module
-public class ApiModule {
+@Module public class ApiModule {
 
     private final String baseUrl;
 
@@ -27,13 +24,12 @@ public class ApiModule {
         this.baseUrl = baseUrl;
     }
 
-    @Provides @Singleton
-    public GithubApi provideGithubApi(OkHttpClient client) {
-        return new Retrofit.Builder()
-            .baseUrl(baseUrl)
+    @Provides @Singleton public GithubApi provideGithubApi(OkHttpClient client) {
+        return new Retrofit.Builder().baseUrl(baseUrl)
             .client(client)
-            .addConverterFactory(JacksonConverterFactory.create(new ObjectMapper()
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)))
+            .addConverterFactory(JacksonConverterFactory.create(
+                new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+                    false)))
             .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
             .validateEagerly(BuildConfig.DEBUG)
             .build()

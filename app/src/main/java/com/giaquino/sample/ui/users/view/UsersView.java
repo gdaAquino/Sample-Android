@@ -1,7 +1,6 @@
 package com.giaquino.sample.ui.users.view;
 
 import com.giaquino.sample.model.entity.User;
-
 import java.util.List;
 
 /**

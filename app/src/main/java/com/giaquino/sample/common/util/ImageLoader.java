@@ -8,5 +8,4 @@ import android.widget.ImageView;
 public interface ImageLoader {
 
     void downloadImageInto(String url, ImageView imageView);
-
 }

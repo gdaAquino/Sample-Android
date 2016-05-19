@@ -2,13 +2,11 @@ package com.giaquino.sample;
 
 import android.app.Application;
 import android.content.Context;
-
 import com.giaquino.sample.inject.component.ApplicationComponent;
 import com.giaquino.sample.inject.component.DaggerApplicationComponent;
 import com.giaquino.sample.inject.module.ApiModule;
 import com.giaquino.sample.inject.module.ApplicationModule;
 import com.giaquino.sample.inject.module.DatabaseModule;
-
 import timber.log.Timber;
 
 /**
@@ -22,8 +20,7 @@ public class SampleApplication extends Application {
         return (SampleApplication) context.getApplicationContext();
     }
 
-    @Override
-    public void onCreate() {
+    @Override public void onCreate() {
         super.onCreate();
         applicationComponent = prepareApplicationComponent();
         if (BuildConfig.DEBUG) {
@@ -37,6 +34,7 @@ public class SampleApplication extends Application {
 
     /**
      * Initialize {@link ApplicationComponent} and its {@link dagger.Module}.
+     *
      * @return {@link ApplicationComponent}
      */
     private ApplicationComponent prepareApplicationComponent() {

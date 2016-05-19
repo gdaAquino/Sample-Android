@@ -4,11 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.giaquino.sample.common.util.ImageLoader;
 import com.giaquino.sample.model.entity.User;
 import com.giaquino.sample.ui.users.view.UserViewHolder;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,23 +26,19 @@ public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder> {
         this.loader = loader;
     }
 
-    @Override
-    public int getItemViewType(int position) {
+    @Override public int getItemViewType(int position) {
         return 1;
     }
 
-    @Override
-    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return UserViewHolder.create(inflater, parent, loader);
     }
 
-    @Override
-    public void onBindViewHolder(UserViewHolder holder, int position) {
+    @Override public void onBindViewHolder(UserViewHolder holder, int position) {
         holder.bind(users.get(position));
     }
 
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return users.size();
     }
 

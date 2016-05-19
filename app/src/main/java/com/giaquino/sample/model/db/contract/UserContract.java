@@ -3,10 +3,8 @@ package com.giaquino.sample.model.db.contract;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
-
 import com.giaquino.sample.model.db.Database;
 import com.giaquino.sample.model.entity.User;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,32 +17,38 @@ import java.util.List;
  */
 public final class UserContract {
 
-    private UserContract() { //no need for instantiating this class
-    }
-
     public static final String TABLE_NAME = "users";
-
     /**
      * Columns
      */
-    public static final String COLUMN_ID         = "id";
-    public static final String COLUMN_LOGIN      = "login";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_LOGIN = "login";
     public static final String COLUMN_AVATAR_URL = "avatar_url";
-
     /**
      * SQL Statement for creating the User Table.
      */
-    public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
-        + BaseColumns._ID   + " INTEGER PRIMARY KEY AUTOINCREMENT, " //required android id
-        + COLUMN_ID         + " INTEGER NOT NULL, "
-        + COLUMN_LOGIN      + " TEXT NOT NULL, "
-        + COLUMN_AVATAR_URL + " TEXT, "
-        + "UNIQUE (" + COLUMN_ID + ") ON CONFLICT REPLACE)";
-
+    public static final String SQL_CREATE_TABLE = "CREATE TABLE "
+        + TABLE_NAME
+        + " ("
+        + BaseColumns._ID
+        + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+        //required android id
+        + COLUMN_ID
+        + " INTEGER NOT NULL, "
+        + COLUMN_LOGIN
+        + " TEXT NOT NULL, "
+        + COLUMN_AVATAR_URL
+        + " TEXT, "
+        + "UNIQUE ("
+        + COLUMN_ID
+        + ") ON CONFLICT REPLACE)";
     /**
      * SQL Statement for dropping the User Table.
      */
     public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+    private UserContract() { //no need for instantiating this class
+    }
 
     /**
      * Transforms {@link List<User>} to {@link List<ContentValues>}.
@@ -88,10 +92,10 @@ public final class UserContract {
         List<User> users = new ArrayList<>(cursor.getCount());
         while (cursor.moveToNext()) {
             users.add(User.builder()
-                          .id(cursor.getInt(id))
-                          .login(cursor.getString(login))
-                          .avatarUrl(cursor.getString(avatar))
-                          .build());
+                .id(cursor.getInt(id))
+                .login(cursor.getString(login))
+                .avatarUrl(cursor.getString(avatar))
+                .build());
         }
         cursor.close();
         return Collections.unmodifiableList(users);

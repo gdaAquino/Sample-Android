@@ -1,7 +1,6 @@
 package com.giaquino.sample.common.util;
 
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
 
 /**
@@ -15,11 +14,7 @@ public class PicassoImageLoader implements ImageLoader {
         this.picasso = picasso;
     }
 
-    @Override
-    public void downloadImageInto(String url, ImageView imageView) {
-        picasso.load(url)
-               .fit()
-               .centerCrop()
-               .into(imageView);
+    @Override public void downloadImageInto(String url, ImageView imageView) {
+        picasso.load(url).fit().centerCrop().into(imageView);
     }
 }

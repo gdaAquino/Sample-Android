@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -24,11 +23,9 @@ public abstract class BaseFragment extends Fragment {
     protected void runOnUIThreadIfFragmentAlive(final Runnable runnable) {
         if (Looper.myLooper() == Looper.getMainLooper() && isFragmentAlive()) {
             runnable.run();
-        }
-        else {
+        } else {
             MAIN_THREAD_HANDLER.post(new Runnable() {
-                @Override
-                public void run() {
+                @Override public void run() {
                     if (isFragmentAlive()) {
                         runnable.run();
                     }
@@ -38,18 +35,20 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private boolean isFragmentAlive() {
-        return getActivity() != null && isAdded() && !isDetached() && getView() != null && !isRemoving();
+        return getActivity() != null
+            && isAdded()
+            && !isDetached()
+            && getView() != null
+            && !isRemoving();
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         initialize();
     }
 
-    @Override
-    public void onDestroy() {
+    @Override public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }

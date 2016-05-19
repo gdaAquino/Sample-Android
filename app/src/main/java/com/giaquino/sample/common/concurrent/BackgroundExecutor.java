@@ -1,7 +1,6 @@
 package com.giaquino.sample.common.concurrent;
 
 import android.support.annotation.NonNull;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,11 +15,9 @@ public class BackgroundExecutor implements Executor {
 
     public BackgroundExecutor(int threadPoolCount) {
         executorService = Executors.newFixedThreadPool(threadPoolCount, new ThreadFactory() {
-            @Override
-            public Thread newThread(@NonNull final Runnable r) {
+            @Override public Thread newThread(@NonNull final Runnable r) {
                 return new Thread() {
-                    @Override
-                    public void run() {
+                    @Override public void run() {
                         setPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
                         r.run();
                     }
@@ -29,8 +26,7 @@ public class BackgroundExecutor implements Executor {
         });
     }
 
-    @Override
-    public void execute(@NonNull Runnable command) {
+    @Override public void execute(@NonNull Runnable command) {
         executorService.execute(command);
     }
 }
