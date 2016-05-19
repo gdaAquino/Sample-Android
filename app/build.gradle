@@ -1,5 +1,6 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: "com.android.application"
+apply plugin: "com.neenbedankt.android-apt"
+apply plugin: "me.tatarka.retrolambda"
 
 android {
 
@@ -12,6 +13,11 @@ android {
         targetSdkVersion configs.targetSDK
         versionCode configs.code
         versionName configs.name
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -68,7 +74,5 @@ dependencies {
     debugCompile libraries.stetho
     debugCompile libraries.stethoOkHttp
     debugCompile libraries.leakCanary
-    debugCompile libraries.tinyDancer
-    debugCompile libraries.lynx
 
 }

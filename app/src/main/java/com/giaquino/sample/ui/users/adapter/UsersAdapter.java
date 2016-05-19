@@ -29,6 +29,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return 1;
+    }
+
+    @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return UserViewHolder.create(inflater, parent, loader);
     }
@@ -50,11 +55,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public void setData(List<User> users) {
         this.users.clear();
         this.users.addAll(users);
-        notifyDataSetChanged();
     }
 
     public void addData(List<User> users) {
         this.users.addAll(users);
-        notifyDataSetChanged();
     }
 }

@@ -1,3 +1,10 @@
+ext.gradlePlugins = [
+        android          : "com.android.tools.build:gradle:2.1.0",
+        apt              : "com.neenbedankt.gradle.plugins:android-apt:1.8",
+        retrolambda      : "me.tatarka:gradle-retrolambda:3.2.5",
+        lombok           : "me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2"
+]
+
 ext.configs = [
         code             : 1,
         name             : "1.0",
@@ -8,7 +15,7 @@ ext.configs = [
 ]
 
 ext.versions = [
-        support                : "23.2.1",
+        support                : "23.4.0",
 
         butterknife            : "8.0.1",
         dagger                 : "2.0.2",
@@ -17,7 +24,6 @@ ext.versions = [
 
         okhttp                 : "3.2.0",
         retrofit               : "2.0.2",
-        gson                   : "2.3.1",
         jackson                : "2.6.3",
 
         picasso                : "2.5.2",
@@ -41,33 +47,36 @@ ext.versions = [
 
 ext.libraries = [
         /**
-         * Support Libraries\
+         * Support
          */
         supportAnnotations      : "com.android.support:support-annotations:$versions.support",
         supportDesign           : "com.android.support:design:$versions.support",
-        //supportPercent          : "com.android.support:percent:$versions.support",
-        //supportCustomTabs       : "com.android.support:customtabs:$versions.support",
-        /**
-         * v7 Support Libraries
-         */
-        supportAppCompat        : "com.android.support:appcompat-v7:$versions.support",
-        //supportCardView         : "com.android.support.cardview-v7:$versions.support",
-        //supportGridLayout       : "com.android.support.gridlayout-v7:$versions.support",
-        //supportMediaRouter      : "com.android.support:mediarouter-v7:$versions.support",
-        //supportPalette          : "com.android.support:palette-v7:$versions.support",
-        supportRecyclerView     : "com.android.support:recyclerview-v7:$versions.support",
-        //supportPreference       : "com.android.support:preference-v7:$versions.support",
-        /**
-         * v13 Support Libraries
-         */
-        //supportV13              : "com.android.support:support-v13:$versions.support",
-        /**
-         * v14 Support Libraries
-         */
-        //supportPreferenceV14    : "com.android.support:preference-v14:$versions.support",
+        supportPercent          : "com.android.support:percent:$versions.support",
+        supportCustomTabs       : "com.android.support:customtabs:$versions.support",
 
         /**
-         * Injection
+         * Support v7
+         */
+        supportAppCompat        : "com.android.support:appcompat-v7:$versions.support",
+        supportCardView         : "com.android.support.cardview-v7:$versions.support",
+        supportGridLayout       : "com.android.support.gridlayout-v7:$versions.support",
+        supportMediaRouter      : "com.android.support:mediarouter-v7:$versions.support",
+        supportPalette          : "com.android.support:palette-v7:$versions.support",
+        supportRecyclerView     : "com.android.support:recyclerview-v7:$versions.support",
+        supportPreference       : "com.android.support:preference-v7:$versions.support",
+
+        /**
+         * Support v13
+         */
+        supportV13              : "com.android.support:support-v13:$versions.support",
+
+        /**
+         * Support v14
+         */
+        supportPreferenceV14    : "com.android.support:preference-v14:$versions.support",
+
+        /**
+         * Inject
          */
         butterknife             : "com.jakewharton:butterknife:$versions.butterknife",
         butterknifeCompiler     : "com.jakewharton:butterknife-compiler:$versions.butterknife",
@@ -77,46 +86,42 @@ ext.libraries = [
         javaxAnnotationApi      : "javax.annotation:javax.annotation-api:$versions.javaxAnnotationApi",
 
         /**
-         * Network Libraries
+         * Network
          */
         okhttp                  : "com.squareup.okhttp3:okhttp:$versions.okhttp",
         okhttpLogIntercepter    : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
         retrofit                : "com.squareup.retrofit2:retrofit:$versions.retrofit",
         retrofitRxJavaAdapter   : "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit",
-        //retrofitGsonConverter   : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
-        //gson                    : "com.google.code.gson:gson:$versions.gson",
         retrofitJacksonConverter: "com.squareup.retrofit2:converter-jackson:$versions.retrofit",
         jackson                 : "com.fasterxml.jackson.core:jackson-databind:$versions.jackson",
 
         /**
-         * Image Loading Libraries
+         * Image
          */
         picasso                 : "com.squareup.picasso:picasso:$versions.picasso",
         picassoOkHttp           : "com.jakewharton.picasso:picasso2-okhttp3-downloader:$versions.picassoOkHttp",
 
         /**
-         * Tools
+         * Utils
          */
         rxJava                      : "io.reactivex:rxjava:$versions.rxJava",
         timber                      : "com.jakewharton.timber:timber:$versions.timber",
         autoValue                   : "com.google.auto.value:auto-value:$versions.autoValue",
         autoValueRedactedCompiler   : "com.squareup.auto.value:auto-value-redacted:$versions.autoValueRedacted",
         autoValueParcelable         : "com.ryanharter.auto.value:auto-value-parcel-adapter:$versions.autoValueParcelable",
-        autoValueParcelableCompiler : "com.ryanharter.auto.value:auto-value-parcel:$versions.autoValueParcelable", //Optional
+        autoValueParcelableCompiler : "com.ryanharter.auto.value:auto-value-parcel:$versions.autoValueParcelable",
+        paperworkPlugin             : "hu.supercluster:paperwork-plugin:$versions.paperwork",
+        paperwork                   : "hu.supercluster:paperwork:$versions.paperwork",
 
         /**
-         * Developer Tools
+         * Debug
          */
         stetho                  : "com.facebook.stetho:stetho:$versions.stetho",
         stethoOkHttp            : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
         leakCanary              : "com.squareup.leakcanary:leakcanary-android:$versions.leakCanary",
-        tinyDancer              : "com.github.brianPlummer:tinydancer:$versions.tinyDancer",
-        paperworkPlugin         : "hu.supercluster:paperwork-plugin:$versions.paperwork",
-        paperwork               : "hu.supercluster:paperwork:$versions.paperwork",
-        lynx                    : "com.github.pedrovgs:lynx:$versions.lynx",
 
         /**
-         * Test Tools
+         * Test
          */
         mockWebServer           : "com.squareup.okhttp3:mockwebserver:$versions.mockWebServer",
         junit                   : "junit:junit:$versions.junit"
