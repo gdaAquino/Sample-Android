@@ -27,13 +27,13 @@ public class UsersPresenterTest {
     @Mock private UsersView usersView;
 
     private List<User> users;
+        ;
     private UsersPresenter usersPresenter;
 
     @Before public void setup() {
         MockitoAnnotations.initMocks(this);
         usersPresenter = new UsersPresenter(userModel);
         usersPresenter.bindView(usersView);
-
         users = Lists.newArrayList(User.builder().id(1).login("1").avatarUrl("1").build(),
             User.builder().id(2).login("2").avatarUrl("2").build(),
             User.builder().id(3).login("3").avatarUrl("3").build());
@@ -74,4 +74,21 @@ public class UsersPresenterTest {
         verify(usersView, never()).setUsers(users);
         verify(usersView).showErrorMessage(anyString());
     }
+
+    @Test public void loadNextUsers_withInternetShouldSendDataToTheView() {
+        when(userModel.getUsersFromNetwork(2)).thenReturn(
+            Single.just(users));
+        usersPresenter.loadNextUsers(2);
+        verify(usersView).addUsers(users);
+        verify(usersView, never()).showErrorMessage(anyString());
+    }
+
+    @Test public void loadNextUsers_noInternetShouldSendErrorToTheView() {
+        when(userModel.getUsersFromNetwork(2)).thenReturn(
+            Single.error(new Exception()));
+        usersPresenter.loadNextUsers(2);
+        verify(usersView, never()).addUsers(users);
+        verify(usersView).showErrorMessage(anyString());
+    }
+
 }
