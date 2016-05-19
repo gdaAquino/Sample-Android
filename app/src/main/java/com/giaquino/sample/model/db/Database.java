@@ -3,16 +3,17 @@ package com.giaquino.sample.model.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import java.util.List;
+import rx.Observable;
 
 /**
  * @author Gian Darren Azriel Aquino.
  */
 public interface Database {
 
-    Cursor query(String table, String selection, String[] selectionArgs);
+    Observable<Cursor> query(String table, String selection, String[] selectionArgs);
 
-    Cursor query(String table, String selection, String[] selectionArgs, String groupBy,
-        String having, String orderBy);
+    Observable<Cursor> query(String table, String selection, String[] selectionArgs, String groupBy,
+        String having, String orderBy, String limit);
 
     int insert(String table, List<ContentValues> contentValues);
 

@@ -6,7 +6,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * @author Gian Darren Azriel Aquino.
  */
-public class Presenter<V> {
+public abstract class Presenter<V> {
 
     private CompositeSubscription subscriptions = new CompositeSubscription();
 
@@ -18,14 +18,15 @@ public class Presenter<V> {
 
     public void bindView(V view) {
         if (this.view != null) {
-            throw new IllegalStateException("Presenter is already binded to a view.");
+            throw new IllegalStateException("Presenter already has a view.");
         }
         this.view = view;
+        onBindView();
     }
 
     public void unbindView() {
         if (view == null) {
-            throw new IllegalStateException("Presenter is not binded to a view.");
+            throw new IllegalStateException("View == null, Nothing to unbind.");
         }
         view = null;
         subscriptions.clear();
@@ -34,4 +35,7 @@ public class Presenter<V> {
     public void addSubscriptionToUnsubscribe(Subscription subscription) {
         subscriptions.add(subscription);
     }
+
+    public abstract void onBindView();
+
 }

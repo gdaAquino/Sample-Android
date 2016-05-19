@@ -3,7 +3,6 @@ package com.giaquino.sample.ui.users.presenter;
 import com.giaquino.sample.common.app.Presenter;
 import com.giaquino.sample.model.UserModel;
 import com.giaquino.sample.ui.users.view.UsersView;
-import rx.Subscription;
 
 /**
  * @author Gian Darren Azriel Aquino.
@@ -17,19 +16,19 @@ public class UsersPresenter extends Presenter<UsersView> {
     }
 
     public void loadUsers() {
-        Subscription subscription = model.getUsersFromLocal()
-            .concatWith(model.getUsersFromNetwork(UserModel.SINCE_INITIAL_VALUE))
-            .subscribe(users -> view().setUsers(users), //success
-                throwable -> view().showErrorMessage("error : " + throwable), //error
-                () -> {
-                }); //completed
-        addSubscriptionToUnsubscribe(subscription);
+        model.loadUsers();
     }
 
-    public void loadNextUsers(int since) {
-        Subscription subscription =
-            model.getUsersFromNetwork(since).subscribe(users -> view().addUsers(users), //success
-                throwable -> view().showErrorMessage("error : " + throwable)); //error
-        addSubscriptionToUnsubscribe(subscription);
+    public void loadUsers(int since) {
+        model.loadUsers(since);
+    }
+
+    @Override public void onBindView() {
+        addSubscriptionToUnsubscribe(model.users().subscribe(users -> {
+            view().setUsers(users);
+        }));
+        addSubscriptionToUnsubscribe(model.error().subscribe(throwable -> {
+            view().showErrorMessage(throwable.toString());
+        }));
     }
 }

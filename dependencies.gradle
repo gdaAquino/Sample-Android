@@ -26,6 +26,8 @@ ext.versions = [
     retrofit               : "2.0.2",
     jackson                : "2.6.3",
 
+    sqlbrite               : "0.6.3",
+
     picasso                : "2.5.2",
     picassoOkHttp          : "1.0.2",
 
@@ -97,6 +99,11 @@ ext.libraries = [
     retrofitRxJavaAdapter   : "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit",
     retrofitJacksonConverter: "com.squareup.retrofit2:converter-jackson:$versions.retrofit",
     jackson                 : "com.fasterxml.jackson.core:jackson-databind:$versions.jackson",
+
+    /**
+     * Database
+     */
+    sqlbrite                : "com.squareup.sqlbrite:sqlbrite:$versions.sqlbrite",
 
     /**
      * Image

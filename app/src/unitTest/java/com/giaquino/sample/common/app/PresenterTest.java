@@ -24,7 +24,10 @@ public class PresenterTest {
 
     @Before public void setup() {
         view = new Object();
-        presenter = new Presenter<>();
+        presenter = new Presenter<Object>() {
+            @Override public void onBindView() {
+            }
+        };
     }
 
     @Test public void bindView_shouldBindViewToThePresenter() {

@@ -19,6 +19,7 @@ import com.giaquino.sample.model.UserModel;
 import com.giaquino.sample.model.entity.User;
 import com.giaquino.sample.ui.users.adapter.UsersAdapter;
 import com.giaquino.sample.ui.users.presenter.UsersPresenter;
+import com.giaquino.sample.ui.users.view.UserViewHolder;
 import com.giaquino.sample.ui.users.view.UsersView;
 import dagger.Module;
 import dagger.Provides;
@@ -38,7 +39,7 @@ public class UsersFragment extends BaseFragment implements UsersView {
 
     LinearLayoutManager manager;
     DirectionalOnScrollListener scrollListener;
-    ListLoadingAdapterDecorator<UsersAdapter> decorator;
+    ListLoadingAdapterDecorator<User, UserViewHolder, UsersAdapter> adapter;
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -51,24 +52,25 @@ public class UsersFragment extends BaseFragment implements UsersView {
             .plus(new UsersFragmentModule())
             .inject(this);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        UsersAdapter adapter = new UsersAdapter(getContext(), imageLoader);
+        adapter = new ListLoadingAdapterDecorator<>(getContext(),
+            new UsersAdapter(getContext(), imageLoader));
         scrollListener = new DirectionalOnScrollListener(manager) {
             @Override
             public void onScrollDown(int firstItemIndex, int lastItemIndex, int totalItemCount) {
-                if (lastItemIndex == totalItemCount - 1) {
+                if (lastItemIndex == totalItemCount - 1) { //last item
                     setNotifyDownScroll(false);
-                    decorator.showLoadingIndicator(true);
-                    UsersAdapter user = decorator.getDelegate();
-                    presenter.loadNextUsers(user.getData(user.getItemCount() - 1).id());
+                    adapter.setShowLoadingIndicator(true);
+                    adapter.notifyDataSetChanged();
+                    presenter.loadUsers(
+                        adapter.getData(adapter.getDelegateItemCount() - 1).id());
                 }
             }
         };
-        decorator = new ListLoadingAdapterDecorator<>(getContext(), adapter);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(decorator);
+        recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(scrollListener);
         presenter.bindView(this);
-        presenter.loadUsers();
+        presenter.loadUsers(1);
     }
 
     @Override public void onDestroyView() {
@@ -78,25 +80,19 @@ public class UsersFragment extends BaseFragment implements UsersView {
 
     @Override public void setUsers(final List<User> users) {
         runOnUIThreadIfFragmentAlive(() -> {
-            decorator.getDelegate().setData(users);
-            decorator.notifyDataSetChanged();
-            scrollListener.setNotifyDownScroll(true);
-        });
-    }
-
-    @Override public void addUsers(final List<User> users) {
-        runOnUIThreadIfFragmentAlive(() -> {
-            decorator.hideLoadingIndicator(true);
-            decorator.getDelegate().addData(users);
-            decorator.notifyDataSetChanged();
+            adapter.setShowLoadingIndicator(false);
+            adapter.setData(users);
+            adapter.notifyDataSetChanged();
             scrollListener.setNotifyDownScroll(true);
         });
     }
 
     @Override public void showErrorMessage(final String message) {
         runOnUIThreadIfFragmentAlive(() -> {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            adapter.setShowLoadingIndicator(false);
+            adapter.notifyDataSetChanged();
             scrollListener.setNotifyDownScroll(true);
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         });
     }
 

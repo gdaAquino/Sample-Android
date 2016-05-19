@@ -1,11 +1,15 @@
 package com.giaquino.sample.inject.module;
 
+import android.database.sqlite.SQLiteOpenHelper;
+import com.giaquino.sample.BuildConfig;
 import com.giaquino.sample.SampleApplication;
 import com.giaquino.sample.model.db.Database;
-import com.giaquino.sample.model.db.SampleDatabase;
+import com.giaquino.sample.model.db.SQLBriteDatabase;
+import com.giaquino.sample.model.db.SampleSQLiteOpenHelper;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Gian Darren Azriel Aquino.
@@ -21,7 +25,12 @@ import javax.inject.Singleton;
         this.version = version;
     }
 
-    @Provides @Singleton public Database provideDatabase(SampleApplication application) {
-        return new SampleDatabase(application, name, null, version);
+    @Provides @Singleton public Database provideDatabase(SQLiteOpenHelper helper) {
+        return new SQLBriteDatabase(helper, Schedulers.io(), BuildConfig.DEBUG);
+    }
+
+    @Provides @Singleton
+    public SQLiteOpenHelper provideSQLiteOpenHelper(SampleApplication application) {
+        return new SampleSQLiteOpenHelper(application, name, null, version);
     }
 }

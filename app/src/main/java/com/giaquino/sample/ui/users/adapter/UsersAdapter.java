@@ -1,10 +1,10 @@
 package com.giaquino.sample.ui.users.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.giaquino.sample.common.util.ImageLoader;
+import com.giaquino.sample.common.widget.BaseRecyclerView;
 import com.giaquino.sample.model.entity.User;
 import com.giaquino.sample.ui.users.view.UserViewHolder;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Gian Darren Azriel Aquino.
  */
-public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder> {
+public class UsersAdapter extends BaseRecyclerView<User, UserViewHolder> {
 
     private LayoutInflater inflater;
 
@@ -42,16 +42,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder> {
         return users.size();
     }
 
-    public User getData(int position) {
+    @Override public User getData(int position) {
         return users.get(position);
     }
 
     public void setData(List<User> users) {
         this.users.clear();
-        this.users.addAll(users);
-    }
-
-    public void addData(List<User> users) {
         this.users.addAll(users);
     }
 }
