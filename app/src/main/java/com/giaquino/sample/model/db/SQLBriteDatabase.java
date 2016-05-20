@@ -1,14 +1,13 @@
 package com.giaquino.sample.model.db;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.BriteDatabase.Transaction;
+import com.squareup.sqlbrite.QueryObservable;
 import com.squareup.sqlbrite.SqlBrite;
 import java.util.List;
-import rx.Observable;
 import rx.Scheduler;
 import timber.log.Timber;
 
@@ -26,14 +25,14 @@ public class SQLBriteDatabase implements Database {
     }
 
     @Override
-    public Observable<Cursor> query(String table, String selection, String[] selectionArgs) {
+    public QueryObservable query(String table, String selection, String[] selectionArgs) {
         StringBuilder builder = builder().append("SELECT * FROM ").append(table);
         appendClause(builder, " WHERE ", selection);
-        return db.createQuery(table, builder.toString(), selectionArgs).map(query -> query.run());
+        return db.createQuery(table, builder.toString(), selectionArgs);
     }
 
     @Override
-    public Observable<Cursor> query(String table, String selection, String[] selectionArgs,
+    public QueryObservable query(String table, String selection, String[] selectionArgs,
         String groupBy, String having, String orderBy, String limit) {
         StringBuilder builder = builder().append("SELECT * FROM ").append(table);
         appendClause(builder, " WHERE ", selection);
@@ -41,7 +40,7 @@ public class SQLBriteDatabase implements Database {
         appendClause(builder, " HAVING ", having);
         appendClause(builder, " ORDER BY ", orderBy);
         appendClause(builder, " LIMIT ", limit);
-        return db.createQuery(table, builder.toString(), selectionArgs).map(query -> query.run());
+        return db.createQuery(table, builder.toString(), selectionArgs);
     }
 
     @Override public int insert(String table, List<ContentValues> contentValues) {

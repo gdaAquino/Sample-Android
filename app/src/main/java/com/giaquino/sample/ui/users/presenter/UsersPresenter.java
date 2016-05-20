@@ -27,7 +27,7 @@ public class UsersPresenter extends Presenter<UsersView> {
         addSubscriptionToUnsubscribe(model.users().subscribe(users -> {
             view().setUsers(users);
         }));
-        addSubscriptionToUnsubscribe(model.error().subscribe(throwable -> {
+        addSubscriptionToUnsubscribe(model.errors().subscribe(throwable -> {
             view().showErrorMessage(throwable.toString());
         }));
     }

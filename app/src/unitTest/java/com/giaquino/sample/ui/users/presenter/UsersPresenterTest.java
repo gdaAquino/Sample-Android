@@ -48,7 +48,7 @@ public class UsersPresenterTest {
 
     @Test public void bindView_withLocalShouldSendDataToView() {
         when(userModel.users()).thenReturn(userObservable.startWith(users).asObservable());
-        when(userModel.error()).thenReturn(errorObservable.asObservable());
+        when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         verify(usersView).setUsers(anyListOf(User.class));
         verify(usersView, never()).showErrorMessage(anyString());
@@ -56,7 +56,7 @@ public class UsersPresenterTest {
 
     @Test public void bindView_noLocalShouldSendEmptyDataToView() {
         when(userModel.users()).thenReturn(userObservable.startWith(empty).asObservable());
-        when(userModel.error()).thenReturn(errorObservable.asObservable());
+        when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         verify(usersView).setUsers(anyListOf(User.class));
         verify(usersView, never()).showErrorMessage(anyString());
@@ -68,7 +68,7 @@ public class UsersPresenterTest {
             return null;
         }).when(userModel).loadUsers();
         when(userModel.users()).thenReturn(userObservable.startWith(users).asObservable());
-        when(userModel.error()).thenReturn(errorObservable.asObservable());
+        when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers();
         verify(usersView, atLeast(2)).setUsers(anyListOf(User.class));
@@ -81,7 +81,7 @@ public class UsersPresenterTest {
             return null;
         }).when(userModel).loadUsers();
         when(userModel.users()).thenReturn(userObservable.startWith(users).asObservable());
-        when(userModel.error()).thenReturn(errorObservable.asObservable());
+        when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers();
         verify(usersView).setUsers(anyListOf(User.class));
@@ -94,7 +94,7 @@ public class UsersPresenterTest {
             return null;
         }).when(userModel).loadUsers();
         when(userModel.users()).thenReturn(userObservable.startWith(empty).asObservable());
-        when(userModel.error()).thenReturn(errorObservable.asObservable());
+        when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers();
         verify(usersView).setUsers(users);
@@ -107,7 +107,7 @@ public class UsersPresenterTest {
             return null;
         }).when(userModel).loadUsers();
         when(userModel.users()).thenReturn(userObservable.startWith(empty).asObservable());
-        when(userModel.error()).thenReturn(errorObservable.asObservable());
+        when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers();
         verify(usersView, never()).setUsers(users);

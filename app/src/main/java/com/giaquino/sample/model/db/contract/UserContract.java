@@ -4,10 +4,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
+import com.giaquino.sample.model.db.Database;
 import com.giaquino.sample.model.entity.User;
+import com.squareup.sqlbrite.SqlBrite;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * @author Gian Darren Azriel Aquino.
@@ -31,37 +36,60 @@ public final class UserContract {
     private UserContract() {
     }
 
-    @NonNull public static List<ContentValues> toContentValues(@NonNull List<User> users) {
-        int size = users.size();
-        List<ContentValues> contentValues = new ArrayList<>(size);
-        for (int x = 0; x < size; x++) {
-            ContentValues cv = new ContentValues(3);
-            User user = users.get(x);
-            cv.put(COLUMN_ID, user.id());
-            cv.put(COLUMN_LOGIN, user.login());
-            cv.put(COLUMN_AVATAR_URL, user.avatarUrl());
-            contentValues.add(cv);
-        }
-        return Collections.unmodifiableList(contentValues);
-    }
+    public static final class Dao {
 
-    @NonNull
-    public static List<User> toUsers(@NonNull Cursor cursor) {
-        if (cursor.isClosed() || cursor.getCount() == 0) {
-            return Collections.emptyList();
+        private Database database;
+
+        public Dao(@NonNull Database database) {
+            this.database = database;
         }
-        int id = cursor.getColumnIndexOrThrow(COLUMN_ID);
-        int login = cursor.getColumnIndexOrThrow(COLUMN_LOGIN);
-        int avatar = cursor.getColumnIndexOrThrow(COLUMN_AVATAR_URL);
-        List<User> users = new ArrayList<>(cursor.getCount());
-        while (cursor.moveToNext()) {
-            users.add(User.builder()
-                .id(cursor.getInt(id))
-                .login(cursor.getString(login))
-                .avatarUrl(cursor.getString(avatar))
-                .build());
+
+        @NonNull public Observable<List<User>> query() {
+            return database.query(TABLE_NAME, "", null, "", "", COLUMN_ID + " ASC", "")
+                .debounce(1000, TimeUnit.MILLISECONDS)
+                .map(SqlBrite.Query::run)
+                .map((Func1<Cursor, List<User>>) cursor -> {
+                    if (cursor == null) {
+                        return Collections.emptyList();
+                    }
+                    return toUsers(cursor);
+                });
         }
-        cursor.close();
-        return Collections.unmodifiableList(users);
+
+        public int insert(@NonNull List<User> users) {
+            return database.insert(TABLE_NAME, toContentValues(users));
+        }
+
+        public int delete() {
+            return database.delete(TABLE_NAME, "", null);
+        }
+
+        @NonNull public List<ContentValues> toContentValues(@NonNull List<User> users) {
+            List<ContentValues> list = new ArrayList<>(users.size());
+            for (User user : users) {
+                ContentValues cv = new ContentValues(3);
+                cv.put(COLUMN_ID, user.id());
+                cv.put(COLUMN_LOGIN, user.login());
+                cv.put(COLUMN_AVATAR_URL, user.avatarUrl());
+                list.add(cv);
+            }
+            return Collections.unmodifiableList(list);
+        }
+
+        @NonNull public List<User> toUsers(@NonNull Cursor cursor) {
+            int id = cursor.getColumnIndexOrThrow(COLUMN_ID);
+            int login = cursor.getColumnIndexOrThrow(COLUMN_LOGIN);
+            int avatar = cursor.getColumnIndexOrThrow(COLUMN_AVATAR_URL);
+            List<User> list = new ArrayList<>(cursor.getCount());
+            while (cursor.moveToNext()) {
+                list.add(User.builder()
+                    .id(cursor.getInt(id))
+                    .login(cursor.getString(login))
+                    .avatarUrl(cursor.getString(avatar))
+                    .build());
+            }
+            cursor.close();
+            return Collections.unmodifiableList(list);
+        }
     }
 }

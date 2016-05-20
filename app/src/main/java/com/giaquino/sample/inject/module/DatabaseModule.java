@@ -6,6 +6,7 @@ import com.giaquino.sample.SampleApplication;
 import com.giaquino.sample.model.db.Database;
 import com.giaquino.sample.model.db.SQLBriteDatabase;
 import com.giaquino.sample.model.db.SampleSQLiteOpenHelper;
+import com.giaquino.sample.model.db.contract.UserContract;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -25,12 +26,16 @@ import rx.schedulers.Schedulers;
         this.version = version;
     }
 
+    @Provides @Singleton
+    public SQLiteOpenHelper provideSQLiteOpenHelper(SampleApplication application) {
+        return new SampleSQLiteOpenHelper(application, name, null, version);
+    }
+
     @Provides @Singleton public Database provideDatabase(SQLiteOpenHelper helper) {
         return new SQLBriteDatabase(helper, Schedulers.io(), BuildConfig.DEBUG);
     }
 
-    @Provides @Singleton
-    public SQLiteOpenHelper provideSQLiteOpenHelper(SampleApplication application) {
-        return new SampleSQLiteOpenHelper(application, name, null, version);
+    @Provides @Singleton public UserContract.Dao provideUserDao(Database database) {
+        return new UserContract.Dao(database);
     }
 }

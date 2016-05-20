@@ -70,7 +70,7 @@ public class UsersFragment extends BaseFragment implements UsersView {
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(scrollListener);
         presenter.bindView(this);
-        presenter.loadUsers(1);
+        presenter.loadUsers();
     }
 
     @Override public void onDestroyView() {

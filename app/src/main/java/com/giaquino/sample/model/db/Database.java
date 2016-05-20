@@ -2,6 +2,7 @@ package com.giaquino.sample.model.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import com.squareup.sqlbrite.QueryObservable;
 import java.util.List;
 import rx.Observable;
 
@@ -10,9 +11,9 @@ import rx.Observable;
  */
 public interface Database {
 
-    Observable<Cursor> query(String table, String selection, String[] selectionArgs);
+    QueryObservable query(String table, String selection, String[] selectionArgs);
 
-    Observable<Cursor> query(String table, String selection, String[] selectionArgs, String groupBy,
+    QueryObservable query(String table, String selection, String[] selectionArgs, String groupBy,
         String having, String orderBy, String limit);
 
     int insert(String table, List<ContentValues> contentValues);
