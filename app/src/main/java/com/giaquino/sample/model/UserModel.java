@@ -19,7 +19,7 @@ public class UserModel {
     private UserContract.Dao userDao;
     private GithubApi githubApi;
     private Observable<List<User>> observableUsers;
-    private PublishSubject<Throwable> observableErrors;
+    private PublishSubject<Throwable> observableErrors = PublishSubject.create();
 
     public UserModel(@NonNull UserContract.Dao userDao, @NonNull GithubApi githubApi) {
         this.userDao = userDao;
@@ -42,7 +42,6 @@ public class UserModel {
     }
 
     public Observable<Throwable> errors() {
-        if (observableErrors == null) observableErrors = PublishSubject.create();
         return observableErrors.debounce(1000, TimeUnit.MILLISECONDS);
     }
 }

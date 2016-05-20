@@ -17,7 +17,7 @@ import rx.functions.Func1;
 /**
  * @author Gian Darren Azriel Aquino.
  */
-public final class UserContract {
+public class UserContract {
 
     public static final String TABLE_NAME = "users";
     public static final String COLUMN_ID = "id";
@@ -36,7 +36,7 @@ public final class UserContract {
     private UserContract() {
     }
 
-    public static final class Dao {
+    public static class Dao {
 
         private Database database;
 
