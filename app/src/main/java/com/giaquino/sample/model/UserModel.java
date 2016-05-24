@@ -14,8 +14,6 @@ import rx.subjects.PublishSubject;
  */
 public class UserModel {
 
-    private static final String GITHUB_TOKEN = "ef085af14ec8e343d27c8a329d66a5ae15fc6b92";
-
     private UserContract.Dao userDao;
     private GithubApi githubApi;
     private Observable<List<User>> observableUsers;
@@ -27,7 +25,7 @@ public class UserModel {
     }
 
     public void loadUsers(final int since) {
-        githubApi.getUsers(GITHUB_TOKEN, since).subscribe(users -> {
+        githubApi.getUsers(GithubApi.GITHUB_TOKEN, since).subscribe(users -> {
             if (since == 0) {
                 userDao.delete();
             }
