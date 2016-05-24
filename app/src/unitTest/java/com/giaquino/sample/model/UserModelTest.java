@@ -71,7 +71,7 @@ public class UserModelTest {
             usersPublisher.onNext(users); //send an update when insert is called
             return null;
         }).thenReturn(users.size());
-        userModel.loadUsers();
+        userModel.loadUsers(0);
         sleep();
         verify(githubApi).getUsers(anyString(), anyInt());
         verify(userDao).insert(eq(users));
@@ -85,11 +85,11 @@ public class UserModelTest {
             usersPublisher.onNext(users); //send an update when insert is called
             return null;
         }).thenReturn(users.size());
-        userModel.loadUsers();
-        userModel.loadUsers();
-        userModel.loadUsers();
-        userModel.loadUsers();
-        userModel.loadUsers();
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
         sleep();
         verify(githubApi, atLeast(5)).getUsers(anyString(), anyInt());
         verify(userDao, atLeast(5)).insert(eq(users));
@@ -100,7 +100,7 @@ public class UserModelTest {
         when(githubApi.getUsers(anyString(), anyInt())).thenReturn(PublishSubject.create(
             (Observable.OnSubscribe<List<User>>) subscriber -> subscriber.onError(new Exception()))
             .toSingle());
-        userModel.loadUsers();
+        userModel.loadUsers(0);
         sleep(); //sleep due to delay (debounce) on errors observable
         verify(githubApi).getUsers(anyString(), anyInt());
         verify(userDao, never()).insert(anyListOf(User.class));
@@ -111,11 +111,11 @@ public class UserModelTest {
         when(githubApi.getUsers(anyString(), anyInt())).thenReturn(PublishSubject.create(
             (Observable.OnSubscribe<List<User>>) subscriber -> subscriber.onError(new Exception()))
             .toSingle());
-        userModel.loadUsers();
-        userModel.loadUsers();
-        userModel.loadUsers();
-        userModel.loadUsers();
-        userModel.loadUsers();
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
+        userModel.loadUsers(0);
         sleep(); //sleep due to delay (debounce) on errors observable
         verify(githubApi, atLeast(5)).getUsers(anyString(), anyInt());
         verify(userDao, never()).insert(anyListOf(User.class));

@@ -15,10 +15,6 @@ public class UsersPresenter extends Presenter<UsersView> {
         this.model = model;
     }
 
-    public void loadUsers() {
-        model.loadUsers();
-    }
-
     public void loadUsers(int since) {
         model.loadUsers(since);
     }

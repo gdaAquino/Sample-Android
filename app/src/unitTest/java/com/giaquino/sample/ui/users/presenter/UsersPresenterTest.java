@@ -66,11 +66,11 @@ public class UsersPresenterTest {
         Mockito.doAnswer(invocation -> {
             userObservable.onNext(users);
             return null;
-        }).when(userModel).loadUsers();
+        }).when(userModel).loadUsers(0);
         when(userModel.users()).thenReturn(userObservable.startWith(users).asObservable());
         when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
-        usersPresenter.loadUsers();
+        usersPresenter.loadUsers(0);
         verify(usersView, atLeast(2)).setUsers(anyListOf(User.class));
         verify(usersView, never()).showErrorMessage(anyString());
     }
@@ -79,11 +79,11 @@ public class UsersPresenterTest {
         Mockito.doAnswer(invocation -> {
             errorObservable.onNext(new Exception());
             return null;
-        }).when(userModel).loadUsers();
+        }).when(userModel).loadUsers(0);
         when(userModel.users()).thenReturn(userObservable.startWith(users).asObservable());
         when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
-        usersPresenter.loadUsers();
+        usersPresenter.loadUsers(0);
         verify(usersView).setUsers(anyListOf(User.class));
         verify(usersView).showErrorMessage(anyString());
     }
@@ -92,11 +92,11 @@ public class UsersPresenterTest {
         Mockito.doAnswer(invocation -> {
             userObservable.onNext(users);
             return null;
-        }).when(userModel).loadUsers();
+        }).when(userModel).loadUsers(0);
         when(userModel.users()).thenReturn(userObservable.startWith(empty).asObservable());
         when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
-        usersPresenter.loadUsers();
+        usersPresenter.loadUsers(0);
         verify(usersView).setUsers(users);
         verify(usersView, never()).showErrorMessage(anyString());
     }
@@ -105,11 +105,11 @@ public class UsersPresenterTest {
         Mockito.doAnswer(invocation -> {
             errorObservable.onNext(new Exception());
             return null;
-        }).when(userModel).loadUsers();
+        }).when(userModel).loadUsers(0);
         when(userModel.users()).thenReturn(userObservable.startWith(empty).asObservable());
         when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
-        usersPresenter.loadUsers();
+        usersPresenter.loadUsers(0);
         verify(usersView, never()).setUsers(users);
         verify(usersView).showErrorMessage(anyString());
     }

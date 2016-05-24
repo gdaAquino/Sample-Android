@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/smp_users_fragment_swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/smp_users_fragment_recyclerview"
+        android:id="@+id/smp_users_fragment_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
@@ -13,4 +14,4 @@
         android:scrollbarSize="4dp"
         android:scrollbarThumbVertical="@android:color/darker_gray"/>
 
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

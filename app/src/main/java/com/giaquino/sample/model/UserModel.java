@@ -26,14 +26,13 @@ public class UserModel {
         this.githubApi = githubApi;
     }
 
-    public void loadUsers() {
-        loadUsers(0);
-    }
-
     public void loadUsers(final int since) {
-        githubApi.getUsers(GITHUB_TOKEN, since)
-            .subscribe(users -> userDao.insert(users),
-                throwable -> observableErrors.onNext(throwable));
+        githubApi.getUsers(GITHUB_TOKEN, since).subscribe(users -> {
+            if (since == 0) {
+                userDao.delete();
+            }
+            userDao.insert(users);
+        }, throwable -> observableErrors.onNext(throwable));
     }
 
     public Observable<List<User>> users() {

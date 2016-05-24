@@ -2,6 +2,7 @@ package com.giaquino.sample.ui.users.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,7 +33,8 @@ import javax.inject.Inject;
  */
 public class UsersFragment extends BaseFragment implements UsersView {
 
-    @BindView(R.id.smp_users_fragment_recyclerview) RecyclerView recyclerView;
+    @BindView(R.id.smp_users_fragment_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.smp_users_fragment_recycler_view) RecyclerView recyclerView;
 
     @Inject UsersPresenter presenter;
     @Inject ImageLoader imageLoader;
@@ -61,16 +63,16 @@ public class UsersFragment extends BaseFragment implements UsersView {
                     setNotifyDownScroll(false);
                     adapter.setShowLoadingIndicator(true);
                     adapter.notifyDataSetChanged();
-                    presenter.loadUsers(
-                        adapter.getData(adapter.getDelegateItemCount() - 1).id());
+                    presenter.loadUsers(adapter.getData(adapter.getDelegateItemCount() - 1).id());
                 }
             }
         };
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadUsers(0));
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(scrollListener);
         presenter.bindView(this);
-        presenter.loadUsers();
+        presenter.loadUsers(0);
     }
 
     @Override public void onDestroyView() {
@@ -83,6 +85,7 @@ public class UsersFragment extends BaseFragment implements UsersView {
             adapter.setShowLoadingIndicator(false);
             adapter.setData(users);
             adapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
             scrollListener.setNotifyDownScroll(true);
         });
     }
@@ -91,6 +94,7 @@ public class UsersFragment extends BaseFragment implements UsersView {
         runOnUIThreadIfFragmentAlive(() -> {
             adapter.setShowLoadingIndicator(false);
             adapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
             scrollListener.setNotifyDownScroll(true);
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         });
