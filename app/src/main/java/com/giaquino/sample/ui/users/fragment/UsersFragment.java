@@ -15,7 +15,7 @@ import com.giaquino.sample.SampleApplication;
 import com.giaquino.sample.common.app.BaseFragment;
 import com.giaquino.sample.common.util.ImageLoader;
 import com.giaquino.sample.common.widget.DirectionalOnScrollListener;
-import com.giaquino.sample.common.widget.ListLoadingAdapterDecorator;
+import com.giaquino.sample.common.widget.ProgressBarAdapterDecorator;
 import com.giaquino.sample.model.UserModel;
 import com.giaquino.sample.model.entity.User;
 import com.giaquino.sample.ui.users.adapter.UsersAdapter;
@@ -33,19 +33,17 @@ import javax.inject.Inject;
  */
 public class UsersFragment extends BaseFragment implements UsersView {
 
-    @BindView(R.id.smp_users_fragment_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.smp_users_fragment_recycler_view) RecyclerView recyclerView;
-
+    @BindView(R.id.smp_view_list_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.smp_view_list_recycler_view) RecyclerView recyclerView;
     @Inject UsersPresenter presenter;
     @Inject ImageLoader imageLoader;
-
     LinearLayoutManager manager;
     DirectionalOnScrollListener scrollListener;
-    ListLoadingAdapterDecorator<User, UserViewHolder, UsersAdapter> adapter;
+    ProgressBarAdapterDecorator<User, UserViewHolder, UsersAdapter> adapter;
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.smp_users_fragment, container, false);
+        return inflater.inflate(R.layout.smp_view_list, container, false);
     }
 
     @Override public void initialize() {
@@ -54,7 +52,7 @@ public class UsersFragment extends BaseFragment implements UsersView {
             .plus(new UsersFragmentModule())
             .inject(this);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        adapter = new ListLoadingAdapterDecorator<>(getContext(),
+        adapter = new ProgressBarAdapterDecorator<>(getContext(),
             new UsersAdapter(getContext(), imageLoader));
         scrollListener = new DirectionalOnScrollListener(manager) {
             @Override

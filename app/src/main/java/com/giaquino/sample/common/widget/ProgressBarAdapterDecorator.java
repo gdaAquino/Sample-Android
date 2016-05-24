@@ -4,13 +4,14 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import com.giaquino.sample.common.viewholder.ProgressBarViewHolder;
 import java.util.List;
 
 /**
  * @author Gian Darren Azriel Aquino
  * @since 5/18/16
  */
-public class ListLoadingAdapterDecorator<T, VH extends ViewHolder, RV extends BaseRecyclerView<T, VH>>
+public class ProgressBarAdapterDecorator<T, VH extends ViewHolder, RV extends BaseRecyclerView<T, VH>>
     extends BaseRecyclerView<T, ViewHolder> implements ListDecorator<RV> {
 
     private final static int VIEW_TYPE_LOADING_INDICATOR = 0;
@@ -21,7 +22,7 @@ public class ListLoadingAdapterDecorator<T, VH extends ViewHolder, RV extends Ba
 
     private RV delegate;
 
-    public ListLoadingAdapterDecorator(Context context, RV delegate) {
+    public ProgressBarAdapterDecorator(Context context, RV delegate) {
         this.delegate = delegate;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -33,7 +34,7 @@ public class ListLoadingAdapterDecorator<T, VH extends ViewHolder, RV extends Ba
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOADING_INDICATOR) {
-            return ListLoadingIndicatorViewHolder.create(inflater, parent);
+            return ProgressBarViewHolder.create(inflater, parent);
         }
         return delegate.onCreateViewHolder(parent, viewType);
     }

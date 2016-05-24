@@ -50,6 +50,7 @@ dependencies {
     compile libraries.supportAnnotations
     compile libraries.supportDesign
     compile libraries.supportAppCompat
+    compile libraries.supportCardView
     compile libraries.supportRecyclerView
 
     compile libraries.butterknife
