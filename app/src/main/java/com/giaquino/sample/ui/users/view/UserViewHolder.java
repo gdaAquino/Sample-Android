@@ -9,7 +9,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.giaquino.sample.R;
-import com.giaquino.sample.common.util.ImageLoader;
+import com.giaquino.sample.model.image.ImageLoader;
 import com.giaquino.sample.model.entity.User;
 
 /**
@@ -17,26 +17,25 @@ import com.giaquino.sample.model.entity.User;
  */
 public class UserViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.smp_view_list_item_user_image_view_avatar) ImageView imageView;
+    @BindView(R.id.smp_view_list_item_user_image_view_avatar) ImageView avatar;
+    @BindView(R.id.smp_view_list_item_user_text_view_name) TextView name;
 
-    @BindView(R.id.smp_view_list_item_user_text_view_name) TextView textView;
-
-    private ImageLoader loader;
-
-    public UserViewHolder(View view, ImageLoader loader) {
-        super(view);
-        this.loader = loader;
-        ButterKnife.bind(this, view);
-    }
+    private ImageLoader imageLoader;
 
     public static UserViewHolder create(LayoutInflater inflater, ViewGroup container,
         ImageLoader loader) {
-        View view = inflater.inflate(R.layout.smp_view_list_item_user, container, false);
-        return new UserViewHolder(view, loader);
+        return new UserViewHolder(
+            inflater.inflate(R.layout.smp_view_list_item_user, container, false), loader);
+    }
+
+    public UserViewHolder(View view, ImageLoader imageLoader) {
+        super(view);
+        this.imageLoader = imageLoader;
+        ButterKnife.bind(this, view);
     }
 
     public void bind(User user) {
-        textView.setText(user.login());
-        loader.downloadImageInto(user.avatarUrl(), imageView);
+        name.setText(user.login());
+        imageLoader.downloadImageInto(user.avatarUrl(), avatar);
     }
 }

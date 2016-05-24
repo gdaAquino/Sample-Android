@@ -7,7 +7,7 @@ import java.util.List;
  * @author Gian Darren Azriel Aquino
  * @since 5/19/16
  */
-public abstract class BaseRecyclerView<T, VH extends RecyclerView.ViewHolder>
+public abstract class BaseAdapter<T, VH extends RecyclerView.ViewHolder>
     extends RecyclerView.Adapter<VH> {
 
     public abstract T getData(int position);

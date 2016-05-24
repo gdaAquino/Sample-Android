@@ -1,4 +1,4 @@
-package com.giaquino.sample.common.widget;
+package com.giaquino.sample.common.listener;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,19 +12,19 @@ public class DirectionalOnScrollListener extends RecyclerView.OnScrollListener {
     private volatile boolean notifyUpScroll = true;
     private volatile boolean notifyScroll = true;
 
-    private LinearLayoutManager manager;
+    private LinearLayoutManager layoutManager;
 
-    public DirectionalOnScrollListener(LinearLayoutManager manager) {
-        this.manager = manager;
+    public DirectionalOnScrollListener(LinearLayoutManager layoutManager) {
+        this.layoutManager = layoutManager;
     }
 
     @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        int count = manager.getItemCount();
+        int count = layoutManager.getItemCount();
         if (count == 0) {
             return;
         }
-        int first = manager.findFirstVisibleItemPosition();
-        int last = manager.findLastVisibleItemPosition();
+        int first = layoutManager.findFirstVisibleItemPosition();
+        int last = layoutManager.findLastVisibleItemPosition();
         if (notifyScroll) onScroll(first, last, count);
         if (dy < 0 && notifyUpScroll) {
             onScrollUp(first, last, count);

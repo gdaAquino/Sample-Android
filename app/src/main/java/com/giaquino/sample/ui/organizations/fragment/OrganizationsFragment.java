@@ -23,7 +23,7 @@ public class OrganizationsFragment extends BaseFragment implements Organizations
 
     @BindView(R.id.smp_view_list_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.smp_view_list_recycler_view) RecyclerView recyclerView;
-    LinearLayoutManager manager;
+    private LinearLayoutManager layoutManager;
 
 
     @Nullable @Override

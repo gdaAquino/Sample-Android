@@ -1,4 +1,4 @@
-package com.giaquino.sample.common.util;
+package com.giaquino.sample.model.image;
 
 import android.widget.ImageView;
 

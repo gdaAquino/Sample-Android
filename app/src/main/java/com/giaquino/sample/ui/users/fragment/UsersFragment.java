@@ -1,5 +1,6 @@
 package com.giaquino.sample.ui.users.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,12 +14,12 @@ import butterknife.BindView;
 import com.giaquino.sample.R;
 import com.giaquino.sample.SampleApplication;
 import com.giaquino.sample.common.app.BaseFragment;
-import com.giaquino.sample.common.util.ImageLoader;
-import com.giaquino.sample.common.widget.DirectionalOnScrollListener;
-import com.giaquino.sample.common.widget.ProgressBarAdapterDecorator;
+import com.giaquino.sample.model.image.ImageLoader;
+import com.giaquino.sample.common.listener.DirectionalOnScrollListener;
+import com.giaquino.sample.common.adapter.ProgressBarAdapterDecorator;
 import com.giaquino.sample.model.UserModel;
 import com.giaquino.sample.model.entity.User;
-import com.giaquino.sample.ui.users.adapter.UsersAdapter;
+import com.giaquino.sample.ui.users.adapter.UserAdapter;
 import com.giaquino.sample.ui.users.presenter.UsersPresenter;
 import com.giaquino.sample.ui.users.view.UserViewHolder;
 import com.giaquino.sample.ui.users.view.UsersView;
@@ -37,9 +38,9 @@ public class UsersFragment extends BaseFragment implements UsersView {
     @BindView(R.id.smp_view_list_recycler_view) RecyclerView recyclerView;
     @Inject UsersPresenter presenter;
     @Inject ImageLoader imageLoader;
-    LinearLayoutManager manager;
-    DirectionalOnScrollListener scrollListener;
-    ProgressBarAdapterDecorator<User, UserViewHolder, UsersAdapter> adapter;
+    private LinearLayoutManager layoutManager;
+    private DirectionalOnScrollListener scrollListener;
+    private ProgressBarAdapterDecorator<User, UserViewHolder, UserAdapter> adapter;
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -47,26 +48,26 @@ public class UsersFragment extends BaseFragment implements UsersView {
     }
 
     @Override public void initialize() {
-        SampleApplication.get(getContext())
+        Context context = getContext();
+        SampleApplication.get(context)
             .getApplicationComponent()
             .plus(new UsersFragmentModule())
             .inject(this);
-        manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        adapter = new ProgressBarAdapterDecorator<>(getContext(),
-            new UsersAdapter(getContext(), imageLoader));
-        scrollListener = new DirectionalOnScrollListener(manager) {
+        layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        adapter = new ProgressBarAdapterDecorator<>(context, new UserAdapter(context, imageLoader));
+        scrollListener = new DirectionalOnScrollListener(layoutManager) {
             @Override
             public void onScrollDown(int firstItemIndex, int lastItemIndex, int totalItemCount) {
                 if (lastItemIndex == totalItemCount - 1) { //last item
                     setNotifyDownScroll(false);
-                    adapter.setShowLoadingIndicator(true);
+                    adapter.setRefreshing(true);
                     adapter.notifyDataSetChanged();
-                    presenter.loadUsers(adapter.getData(adapter.getDelegateItemCount() - 1).id());
+                    presenter.loadUsers(adapter.getData(adapter.getItemCount() - 1).id());
                 }
             }
         };
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadUsers(0));
-        recyclerView.setLayoutManager(manager);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(scrollListener);
         presenter.bindView(this);
@@ -79,8 +80,8 @@ public class UsersFragment extends BaseFragment implements UsersView {
     }
 
     @Override public void setUsers(final List<User> users) {
-        runOnUIThreadIfFragmentAlive(() -> {
-            adapter.setShowLoadingIndicator(false);
+        runOnUIThread(() -> {
+            adapter.setRefreshing(false);
             adapter.setData(users);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
@@ -88,9 +89,9 @@ public class UsersFragment extends BaseFragment implements UsersView {
         });
     }
 
-    @Override public void showErrorMessage(final String message) {
-        runOnUIThreadIfFragmentAlive(() -> {
-            adapter.setShowLoadingIndicator(false);
+    @Override public void showError(final String message) {
+        runOnUIThread(() -> {
+            adapter.setRefreshing(false);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
             scrollListener.setNotifyDownScroll(true);

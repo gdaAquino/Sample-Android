@@ -10,5 +10,5 @@ public interface UsersView {
 
     void setUsers(List<User> users);
 
-    void showErrorMessage(String message);
+    void showError(String message);
 }

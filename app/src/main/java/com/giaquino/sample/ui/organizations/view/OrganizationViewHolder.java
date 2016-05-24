@@ -9,7 +9,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.giaquino.sample.R;
-import com.giaquino.sample.common.util.ImageLoader;
+import com.giaquino.sample.model.image.ImageLoader;
 import com.giaquino.sample.model.entity.Organization;
 
 /**
@@ -31,10 +31,10 @@ public class OrganizationViewHolder extends RecyclerView.ViewHolder {
             imageLoader);
     }
 
-    public OrganizationViewHolder(View itemView, ImageLoader imageLoader) {
-        super(itemView);
+    public OrganizationViewHolder(View view, ImageLoader imageLoader) {
+        super(view);
         this.imageLoader = imageLoader;
-        ButterKnife.bind(this, itemView);
+        ButterKnife.bind(this, view);
     }
 
     public void bind(Organization organization) {

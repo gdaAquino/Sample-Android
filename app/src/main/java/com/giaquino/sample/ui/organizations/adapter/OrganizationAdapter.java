@@ -3,8 +3,8 @@ package com.giaquino.sample.ui.organizations.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import com.giaquino.sample.common.util.ImageLoader;
-import com.giaquino.sample.common.widget.BaseRecyclerView;
+import com.giaquino.sample.model.image.ImageLoader;
+import com.giaquino.sample.common.widget.BaseAdapter;
 import com.giaquino.sample.model.entity.Organization;
 import com.giaquino.sample.ui.organizations.view.OrganizationViewHolder;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Gian Darren Azriel Aquino
  * @since 5/24/16
  */
-public class OrganizationAdapter extends BaseRecyclerView<Organization, OrganizationViewHolder> {
+public class OrganizationAdapter extends BaseAdapter<Organization, OrganizationViewHolder> {
 
     private LayoutInflater inflater;
     private ImageLoader imageLoader;

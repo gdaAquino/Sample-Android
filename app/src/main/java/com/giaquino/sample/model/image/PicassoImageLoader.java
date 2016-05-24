@@ -1,6 +1,7 @@
-package com.giaquino.sample.common.util;
+package com.giaquino.sample.model.image;
 
 import android.widget.ImageView;
+import com.giaquino.sample.model.image.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 /**

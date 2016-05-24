@@ -9,22 +9,22 @@ import com.giaquino.sample.ui.users.view.UsersView;
  */
 public class UsersPresenter extends Presenter<UsersView> {
 
-    private UserModel model;
+    private UserModel userModel;
 
-    public UsersPresenter(UserModel model) {
-        this.model = model;
+    public UsersPresenter(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     public void loadUsers(int since) {
-        model.loadUsers(since);
+        userModel.loadUsers(since);
     }
 
     @Override public void onBindView() {
-        addSubscriptionToUnsubscribe(model.users().subscribe(users -> {
+        addSubscriptionToUnsubscribe(userModel.users().subscribe(users -> {
             view().setUsers(users);
         }));
-        addSubscriptionToUnsubscribe(model.errors().subscribe(throwable -> {
-            view().showErrorMessage(throwable.toString());
+        addSubscriptionToUnsubscribe(userModel.errors().subscribe(throwable -> {
+            view().showError(throwable.toString());
         }));
     }
 }

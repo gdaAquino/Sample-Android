@@ -1,54 +1,59 @@
-package com.giaquino.sample.common.widget;
+package com.giaquino.sample.common.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.giaquino.sample.common.viewholder.ProgressBarViewHolder;
+import com.giaquino.sample.common.widget.BaseAdapter;
 import java.util.List;
 
 /**
  * @author Gian Darren Azriel Aquino
  * @since 5/18/16
  */
-public class ProgressBarAdapterDecorator<T, VH extends ViewHolder, RV extends BaseRecyclerView<T, VH>>
-    extends BaseRecyclerView<T, ViewHolder> implements ListDecorator<RV> {
+public class ProgressBarAdapterDecorator<T, VH extends ViewHolder, A extends BaseAdapter<T, VH>>
+    extends BaseAdapter<T, ViewHolder> {
 
-    private final static int VIEW_TYPE_LOADING_INDICATOR = 0;
+    private final static int VIEW_TYPE_PROGRESS_BAR = 0;
 
-    private volatile boolean showLoadingIndicator;
+    private volatile boolean isRefreshing;
 
     private LayoutInflater inflater;
 
-    private RV delegate;
+    private A delegate;
 
-    public ProgressBarAdapterDecorator(Context context, RV delegate) {
+    public ProgressBarAdapterDecorator(Context context, A delegate) {
         this.delegate = delegate;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override public int getItemViewType(int position) {
-        if (isLoadingIndicatorViewType(position)) return VIEW_TYPE_LOADING_INDICATOR;
+        if (isProgressBarViewType(position)) return VIEW_TYPE_PROGRESS_BAR;
         return delegate.getItemViewType(position);
     }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_LOADING_INDICATOR) {
+        if (viewType == VIEW_TYPE_PROGRESS_BAR) {
             return ProgressBarViewHolder.create(inflater, parent);
         }
         return delegate.onCreateViewHolder(parent, viewType);
     }
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
-        if (isLoadingIndicatorViewType(position)) return;
+        if (isProgressBarViewType(position)) return;
         delegate.onBindViewHolder((VH) holder, position);
     }
 
     @Override public int getItemCount() {
-        return delegate.getItemCount() + (showLoadingIndicator ? 1 : 0);
+        return delegate.getItemCount() + (isRefreshing ? 1 : 0);
     }
 
     @Override public T getData(int position) {
+        int delegateItemLastPosition = delegate.getItemCount() - 1;
+        if (position > delegateItemLastPosition) {
+            position = delegateItemLastPosition;
+        }
         return delegate.getData(position);
     }
 
@@ -56,20 +61,12 @@ public class ProgressBarAdapterDecorator<T, VH extends ViewHolder, RV extends Ba
         delegate.setData(ts);
     }
 
-    @Override public RV getDelegate() {
-        return delegate;
+    public void setRefreshing(boolean refreshing) {
+        this.isRefreshing = refreshing;
     }
 
-    @Override public int getDelegateItemCount() {
-        return delegate.getItemCount();
-    }
-
-    public void setShowLoadingIndicator(boolean showLoadingIndicator) {
-        this.showLoadingIndicator = showLoadingIndicator;
-    }
-
-    private boolean isLoadingIndicatorViewType(int position) {
-        return showLoadingIndicator && position == getItemCount() - 1;
+    private boolean isProgressBarViewType(int position) {
+        return isRefreshing && position == getItemCount() - 1;
     }
 }
 

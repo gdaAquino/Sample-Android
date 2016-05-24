@@ -51,7 +51,7 @@ public class UsersPresenterTest {
         when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         verify(usersView).setUsers(anyListOf(User.class));
-        verify(usersView, never()).showErrorMessage(anyString());
+        verify(usersView, never()).showError(anyString());
     }
 
     @Test public void bindView_noLocalShouldSendEmptyDataToView() {
@@ -59,7 +59,7 @@ public class UsersPresenterTest {
         when(userModel.errors()).thenReturn(errorObservable.asObservable());
         usersPresenter.bindView(usersView);
         verify(usersView).setUsers(anyListOf(User.class));
-        verify(usersView, never()).showErrorMessage(anyString());
+        verify(usersView, never()).showError(anyString());
     }
 
     @Test public void loadUsers_withLocalWithInternetShouldSendDataToView() {
@@ -72,7 +72,7 @@ public class UsersPresenterTest {
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers(0);
         verify(usersView, atLeast(2)).setUsers(anyListOf(User.class));
-        verify(usersView, never()).showErrorMessage(anyString());
+        verify(usersView, never()).showError(anyString());
     }
 
     @Test public void loadUsers_withLocalNoInternetShouldSendDataAndErrorToView() {
@@ -85,7 +85,7 @@ public class UsersPresenterTest {
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers(0);
         verify(usersView).setUsers(anyListOf(User.class));
-        verify(usersView).showErrorMessage(anyString());
+        verify(usersView).showError(anyString());
     }
 
     @Test public void loadUsers_noLocalWithInternetShouldSendDataToView() {
@@ -98,7 +98,7 @@ public class UsersPresenterTest {
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers(0);
         verify(usersView).setUsers(users);
-        verify(usersView, never()).showErrorMessage(anyString());
+        verify(usersView, never()).showError(anyString());
     }
 
     @Test public void loadUsers_noLocalNoInternetShouldSendErrorToView() {
@@ -111,6 +111,6 @@ public class UsersPresenterTest {
         usersPresenter.bindView(usersView);
         usersPresenter.loadUsers(0);
         verify(usersView, never()).setUsers(users);
-        verify(usersView).showErrorMessage(anyString());
+        verify(usersView).showError(anyString());
     }
 }
