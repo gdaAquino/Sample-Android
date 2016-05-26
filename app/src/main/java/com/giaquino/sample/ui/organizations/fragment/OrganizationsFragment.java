@@ -64,6 +64,11 @@ public class OrganizationsFragment extends BaseFragment implements Organizations
         presenter.loadOrganizations(0);
     }
 
+    @Override public void onDestroy() {
+        super.onDestroy();
+        presenter.unbindView();
+    }
+
     @Override public void setOrganizations(List<Organization> organizations) {
         runOnUIThread(() -> {
             adapter.setData(organizations);
