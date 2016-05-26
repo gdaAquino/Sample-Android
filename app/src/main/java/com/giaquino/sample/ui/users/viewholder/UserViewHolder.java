@@ -1,4 +1,4 @@
-package com.giaquino.sample.ui.users.view;
+package com.giaquino.sample.ui.users.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

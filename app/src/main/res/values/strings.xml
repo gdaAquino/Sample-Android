@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Sample</string>
+    <string name="smp_app_name">Sample</string>
+    <string name="smp_users">Users</string>
+    <string name="smp_organizations">Organizations</string>
 </resources>

@@ -13,16 +13,16 @@ import android.widget.Toast;
 import butterknife.BindView;
 import com.giaquino.sample.R;
 import com.giaquino.sample.SampleApplication;
-import com.giaquino.sample.common.adapter.MarginItemDecorator;
+import com.giaquino.sample.common.adapter.decorator.MarginItemDecorator;
 import com.giaquino.sample.common.adapter.ProgressBarAdapterDecorator;
 import com.giaquino.sample.common.app.BaseFragment;
 import com.giaquino.sample.common.listener.DirectionalOnScrollListener;
 import com.giaquino.sample.model.UserModel;
 import com.giaquino.sample.model.entity.User;
 import com.giaquino.sample.model.image.ImageLoader;
-import com.giaquino.sample.ui.users.adapter.UserAdapter;
+import com.giaquino.sample.ui.users.adapter.UsersAdapter;
 import com.giaquino.sample.ui.users.presenter.UsersPresenter;
-import com.giaquino.sample.ui.users.view.UserViewHolder;
+import com.giaquino.sample.ui.users.viewholder.UserViewHolder;
 import com.giaquino.sample.ui.users.view.UsersView;
 import dagger.Module;
 import dagger.Provides;
@@ -41,7 +41,7 @@ public class UsersFragment extends BaseFragment implements UsersView {
     @Inject ImageLoader imageLoader;
     private LinearLayoutManager layoutManager;
     private DirectionalOnScrollListener scrollListener;
-    private ProgressBarAdapterDecorator<User, UserViewHolder, UserAdapter> adapter;
+    private ProgressBarAdapterDecorator<User, UserViewHolder, UsersAdapter> adapter;
 
     @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class UsersFragment extends BaseFragment implements UsersView {
             .plus(new UsersFragmentModule())
             .inject(this);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        adapter = new ProgressBarAdapterDecorator<>(context, new UserAdapter(context, imageLoader));
+        adapter = new ProgressBarAdapterDecorator<>(context, new UsersAdapter(context, imageLoader));
         scrollListener = new DirectionalOnScrollListener(layoutManager) {
             @Override
             public void onScrollDown(int firstItemIndex, int lastItemIndex, int totalItemCount) {

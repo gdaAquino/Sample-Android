@@ -12,15 +12,15 @@ import android.widget.Toast;
 import butterknife.BindView;
 import com.giaquino.sample.R;
 import com.giaquino.sample.SampleApplication;
-import com.giaquino.sample.common.adapter.MarginItemDecorator;
+import com.giaquino.sample.common.adapter.decorator.MarginItemDecorator;
 import com.giaquino.sample.common.adapter.ProgressBarAdapterDecorator;
 import com.giaquino.sample.common.app.BaseFragment;
 import com.giaquino.sample.model.OrganizationModel;
 import com.giaquino.sample.model.entity.Organization;
 import com.giaquino.sample.model.image.ImageLoader;
-import com.giaquino.sample.ui.organizations.adapter.OrganizationAdapter;
+import com.giaquino.sample.ui.organizations.adapter.OrganizationsAdapter;
 import com.giaquino.sample.ui.organizations.presenter.OrganizationsPresenter;
-import com.giaquino.sample.ui.organizations.view.OrganizationViewHolder;
+import com.giaquino.sample.ui.organizations.viewholder.OrganizationViewHolder;
 import com.giaquino.sample.ui.organizations.view.OrganizationsView;
 import dagger.Module;
 import dagger.Provides;
@@ -39,7 +39,7 @@ public class OrganizationsFragment extends BaseFragment implements Organizations
     @Inject OrganizationsPresenter presenter;
     @Inject ImageLoader imageLoader;
     private LinearLayoutManager layoutManager;
-    private ProgressBarAdapterDecorator<Organization, OrganizationViewHolder, OrganizationAdapter> adapter;
+    private ProgressBarAdapterDecorator<Organization, OrganizationViewHolder, OrganizationsAdapter> adapter;
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,7 +54,7 @@ public class OrganizationsFragment extends BaseFragment implements Organizations
             .inject(this);
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         adapter = new ProgressBarAdapterDecorator<>(getContext(),
-            new OrganizationAdapter(getContext(), imageLoader));
+            new OrganizationsAdapter(getContext(), imageLoader));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new MarginItemDecorator(

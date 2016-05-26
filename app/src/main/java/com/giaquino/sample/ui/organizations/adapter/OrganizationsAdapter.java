@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.giaquino.sample.model.image.ImageLoader;
 import com.giaquino.sample.common.widget.BaseAdapter;
 import com.giaquino.sample.model.entity.Organization;
-import com.giaquino.sample.ui.organizations.view.OrganizationViewHolder;
+import com.giaquino.sample.ui.organizations.viewholder.OrganizationViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +14,13 @@ import java.util.List;
  * @author Gian Darren Azriel Aquino
  * @since 5/24/16
  */
-public class OrganizationAdapter extends BaseAdapter<Organization, OrganizationViewHolder> {
+public class OrganizationsAdapter extends BaseAdapter<Organization, OrganizationViewHolder> {
 
     private LayoutInflater inflater;
     private ImageLoader imageLoader;
     private List<Organization> organizations = new ArrayList<>();
 
-    public OrganizationAdapter(Context context, ImageLoader imageLoader) {
+    public OrganizationsAdapter(Context context, ImageLoader imageLoader) {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.imageLoader = imageLoader;
     }

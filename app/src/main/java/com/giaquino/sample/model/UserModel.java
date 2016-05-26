@@ -39,6 +39,6 @@ public class UserModel {
     }
 
     public Observable<Throwable> errors() {
-        return observableErrors.debounce(1000, TimeUnit.MILLISECONDS);
+        return observableErrors.debounce(UserContract.Dao.DEFAULT_DEBOUNCE, TimeUnit.MILLISECONDS);
     }
 }

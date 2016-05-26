@@ -1,4 +1,4 @@
-package com.giaquino.sample.common.adapter;
+package com.giaquino.sample.common.adapter.decorator;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;

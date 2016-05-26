@@ -31,6 +31,8 @@ import static org.mockito.Mockito.when;
  */
 public class UserModelTest {
 
+    private static final int DEBOUNCE = UserContract.Dao.DEFAULT_DEBOUNCE;
+
     @Mock private UserContract.Dao userDao;
     @Mock private GithubApi githubApi;
 
@@ -51,7 +53,7 @@ public class UserModelTest {
         });
         //return a publisher that can send an update
         when(userDao.query()).thenReturn(
-            usersPublisher.debounce(1000, TimeUnit.MILLISECONDS).asObservable());
+            usersPublisher.debounce(DEBOUNCE, TimeUnit.MILLISECONDS).asObservable());
         userModel.users().subscribe(users1 -> { //subscribe to users and increment counter
             usersCounter += 1;
         });
@@ -124,7 +126,7 @@ public class UserModelTest {
 
     public void sleep() {
         try {
-            Thread.sleep(1100);
+            Thread.sleep(DEBOUNCE);
         } catch (InterruptedException ignored) {
         }
     }

@@ -6,20 +6,20 @@ import android.view.ViewGroup;
 import com.giaquino.sample.model.image.ImageLoader;
 import com.giaquino.sample.common.widget.BaseAdapter;
 import com.giaquino.sample.model.entity.User;
-import com.giaquino.sample.ui.users.view.UserViewHolder;
+import com.giaquino.sample.ui.users.viewholder.UserViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Gian Darren Azriel Aquino.
  */
-public class UserAdapter extends BaseAdapter<User, UserViewHolder> {
+public class UsersAdapter extends BaseAdapter<User, UserViewHolder> {
 
     private LayoutInflater inflater;
     private ImageLoader loader;
     private List<User> users = new ArrayList<>();
 
-    public UserAdapter(Context context, ImageLoader loader) {
+    public UsersAdapter(Context context, ImageLoader loader) {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.loader = loader;
     }

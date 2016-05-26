@@ -38,6 +38,8 @@ public class UserContract {
 
     public static class Dao {
 
+        public static final int DEFAULT_DEBOUNCE = 500;
+
         private Database database;
 
         public Dao(@NonNull Database database) {
@@ -46,7 +48,7 @@ public class UserContract {
 
         @NonNull public Observable<List<User>> query() {
             return database.query(TABLE_NAME, "", null, "", "", COLUMN_ID + " ASC", "")
-                .debounce(1000, TimeUnit.MILLISECONDS)
+                .debounce(DEFAULT_DEBOUNCE, TimeUnit.MILLISECONDS)
                 .map(SqlBrite.Query::run)
                 .map((Func1<Cursor, List<User>>) cursor -> {
                     if (cursor == null) {
