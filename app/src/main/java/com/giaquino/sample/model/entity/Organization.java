@@ -1,6 +1,7 @@
 package com.giaquino.sample.model.entity;
 
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
@@ -17,13 +18,17 @@ public abstract class Organization implements Parcelable {
     private static final String JSON_PROPERTY_AVATAR_URL = "avatar_url";
     private static final String JSON_PROPERTY_DESCRIPTION = "description";
 
+    public static Builder builder() {
+        return new AutoValue_Organization.Builder();
+    }
+
     @JsonProperty(JSON_PROPERTY_ID) public abstract int id();
 
     @JsonProperty(JSON_PROPERTY_LOGIN) public abstract String login();
 
     @JsonProperty(JSON_PROPERTY_AVATAR_URL) public abstract String avatarUrl();
 
-    @JsonProperty(JSON_PROPERTY_DESCRIPTION) public abstract String description();
+    @Nullable @JsonProperty(JSON_PROPERTY_DESCRIPTION) public abstract String description();
 
     @AutoValue.Builder public static abstract class Builder {
 

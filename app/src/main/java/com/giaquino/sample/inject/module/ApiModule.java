@@ -27,9 +27,9 @@ import rx.schedulers.Schedulers;
     @Provides @Singleton public GithubApi provideGithubApi(OkHttpClient client) {
         return new Retrofit.Builder().baseUrl(baseUrl)
             .client(client)
-            .addConverterFactory(JacksonConverterFactory.create(
-                new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-                    false)))
+            .addConverterFactory(JacksonConverterFactory.create(new ObjectMapper()
+                .configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)))
             .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
             .validateEagerly(BuildConfig.DEBUG)
             .build()

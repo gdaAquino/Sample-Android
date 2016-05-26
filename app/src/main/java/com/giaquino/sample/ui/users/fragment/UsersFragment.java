@@ -13,12 +13,13 @@ import android.widget.Toast;
 import butterknife.BindView;
 import com.giaquino.sample.R;
 import com.giaquino.sample.SampleApplication;
-import com.giaquino.sample.common.app.BaseFragment;
-import com.giaquino.sample.model.image.ImageLoader;
-import com.giaquino.sample.common.listener.DirectionalOnScrollListener;
+import com.giaquino.sample.common.adapter.MarginItemDecorator;
 import com.giaquino.sample.common.adapter.ProgressBarAdapterDecorator;
+import com.giaquino.sample.common.app.BaseFragment;
+import com.giaquino.sample.common.listener.DirectionalOnScrollListener;
 import com.giaquino.sample.model.UserModel;
 import com.giaquino.sample.model.entity.User;
+import com.giaquino.sample.model.image.ImageLoader;
 import com.giaquino.sample.ui.users.adapter.UserAdapter;
 import com.giaquino.sample.ui.users.presenter.UsersPresenter;
 import com.giaquino.sample.ui.users.view.UserViewHolder;
@@ -69,6 +70,9 @@ public class UsersFragment extends BaseFragment implements UsersView {
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadUsers(0));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new MarginItemDecorator(
+            (int) getResources().getDimension(R.dimen.smp_list_vertical_margin),
+            (int) getResources().getDimension(R.dimen.smp_list_horizontal_margin)));
         recyclerView.addOnScrollListener(scrollListener);
         presenter.bindView(this);
         presenter.loadUsers(0);
